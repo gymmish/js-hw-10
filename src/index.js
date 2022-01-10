@@ -1,7 +1,7 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
 import { debounce } from 'debounce';
-import { fetchCountries } from './fetchCountries.js';
+import { fetchCountries } from './fechCountries';
 
 const DEBOUNCE_DELAY = 300;
 
