@@ -29,15 +29,14 @@ const countryCard = countries => {
   const markup = countries
     .map(({ name, capital, population, languages, flags }) => {
       return `
-<li>
       <div class="country-info">
       <img src="${flags.png}" alt="">
         <h1>${name.official}</h1>
-        <div>${capital[0]}</div>
-        <div>${population}</div>
-        <div>${Object.values(languages).join(', ')}</div>
+        <div><b>Capital:</b> ${capital[0]}</div>
+        <div><b>Population:</b> ${population}</div>
+        <div><b>Languages:</b> ${Object.values(languages).join(', ')}</div>
       </div>
-    </li>`;
+    `;
     })
     .join('');
   return markup;
@@ -58,7 +57,7 @@ function base(e) {
 
   fetchCountries(countryName)
     .then(data => {
-      if (data.length > 0 && data.length < 10) {
+      if (data.length > 1 && data.length < 10) {
         const markupList = countryList(data);
         refs.countryList.innerHTML = markupList;
         return;
