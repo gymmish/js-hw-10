@@ -10,7 +10,7 @@ const refs = {
   countryList: document.querySelector('.country-list'),
 };
 
-const cardsCountryUl = countries => {
+const countryList = countries => {
   console.log(countries);
   const markup = countries
     .map(({ name, flags }) => {
@@ -24,7 +24,7 @@ const cardsCountryUl = countries => {
   return markup;
 };
 
-const cardsCountryDiv = countries => {
+const countryCard = countries => {
   console.log(countries);
   const markup = countries
     .map(({ name, capital, population, languages, flags }) => {
@@ -42,3 +42,37 @@ const cardsCountryDiv = countries => {
     .join('');
   return markup;
 };
+
+const errorSearch = error => {
+  Notiflix.Notify.failure(`Oops, there is no country with that name`);
+};
+
+function base(e) {
+  e.preventDefault();
+  const countryName = e.target.value;
+
+  if (!countryName) {
+    refs.countryList.innerHTML = ' ';
+    return;
+  }
+
+  fetchCountries(countryName)
+    .then(data => {
+      if (data.length > 0 && data.length < 10) {
+        const markupList = countryList(data);
+        refs.countryList.innerHTML = markupList;
+        return;
+      }
+      if (data.length > 10) {
+        Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);
+      }
+      if (data.length === 1) {
+        const markupCard = countryCard(data);
+        refs.countryList.innerHTML = markupCard;
+        return;
+      }
+    })
+    .catch(error => errorSearch(error));
+}
+
+refs.input.addEventListener('input', debounce(base, DEBOUNCE_DELAY));
