@@ -48,7 +48,7 @@ const errorSearch = error => {
 
 function base(e) {
   e.preventDefault();
-  const countryName = e.target.value;
+  const countryName = e.target.value.trim();
 
   if (!countryName) {
     refs.countryList.innerHTML = ' ';
@@ -57,7 +57,7 @@ function base(e) {
 
   fetchCountries(countryName)
     .then(data => {
-      if (data.length > 1 && data.length < 10) {
+      if (data.length > 1 && data.length <= 10) {
         const markupList = countryList(data);
         refs.countryList.innerHTML = markupList;
         return;
